@@ -11,7 +11,7 @@ def extract_title(markdown):
 
 
 
-def generate_page(from_path, template_path, dest_path):
+def generate_page(from_path, template_path, dest_path,basepath):
     print(f"Generating page from {from_path} to {dest_path} using {template_path}")
     
     from_file = ""
@@ -26,10 +26,10 @@ def generate_page(from_path, template_path, dest_path):
     html_site = markdown_to_html_node(from_file).to_html()
     
     title = extract_title(from_file)
-    print(title)
     final_file = template_file.replace("{{ Title }}", title)
     final_file = final_file.replace("{{ Content }}", html_site)
-    print(final_file)
+    final_file = final_file.replace('href="/', f'href="{basepath}')
+    
     
     dest_path = Path(dest_path)
     dest_path.parent.mkdir(parents=True, exist_ok=True)
@@ -38,7 +38,7 @@ def generate_page(from_path, template_path, dest_path):
         f.write(final_file)
     
     
-def generate_pages_recursive(dir_path_content, template_path, dest_dir_path):
+def generate_pages_recursive(dir_path_content, template_path, dest_dir_path, basepath):
      
     for md_file in dir_path_content.rglob("*.md"):
         
@@ -47,4 +47,4 @@ def generate_pages_recursive(dir_path_content, template_path, dest_dir_path):
         
         dest_path = dest_path.with_suffix(".html")
         dest_path.parent.mkdir(parents=True, exist_ok=True)
-        generate_page(md_file, template_path, dest_path)
+        generate_page(md_file, template_path, dest_path,basepath)

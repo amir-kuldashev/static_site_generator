@@ -2,17 +2,22 @@ from textnode import TextNode, TextType
 import shutil
 from pathlib import Path
 from generate_site import generate_pages_recursive
-
+import sys
 
 def main():
+    basepath = "/"
+    if sys.argv[0]:
+        basepath = sys.argv[0]
+    
+    
     curr_dir = Path(__file__)
     
     src_dir = curr_dir.parent.parent / "static"
-    dst_dir = curr_dir.parent.parent / "public"
+    dst_dir = curr_dir.parent.parent / "docs"
     temp_file = curr_dir.parent.parent / "template.html"
     content = curr_dir.parent.parent / "content"
     
-    if dst_dir:
+    if dst_dir.is_dir():
         shutil.rmtree(dst_dir)
         
     dst_dir.mkdir(parents=True, exist_ok=True)
@@ -21,7 +26,7 @@ def main():
     
     
     
-    generate_pages_recursive(content, temp_file, dst_dir)
+    generate_pages_recursive(content, temp_file, dst_dir, basepath)
     
 
     

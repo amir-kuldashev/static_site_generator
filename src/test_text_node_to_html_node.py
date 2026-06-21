@@ -48,7 +48,7 @@ class TestTextNodeToHTMLNode(unittest.TestCase):
 
     def test_invalid_text_type(self):
         # We pass a string instead of a valid TextType enum to trigger the default case
-        node = TextNode("This should fail", "invalid_type")
+        node = TextNode("This should fail", "invalid_type") #type:ignore
         
         # assertRaises checks that your code successfully throws the expected Exception
         with self.assertRaises(Exception):
