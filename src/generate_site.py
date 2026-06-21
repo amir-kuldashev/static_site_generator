@@ -29,7 +29,7 @@ def generate_page(from_path, template_path, dest_path,basepath):
     final_file = template_file.replace("{{ Title }}", title)
     final_file = final_file.replace("{{ Content }}", html_site)
     final_file = final_file.replace('href="/', f'href="{basepath}')
-    
+    final_file = final_file.replace('src="/', f'src="{basepath}')
     
     dest_path = Path(dest_path)
     dest_path.parent.mkdir(parents=True, exist_ok=True)
